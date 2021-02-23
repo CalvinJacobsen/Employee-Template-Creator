@@ -1,3 +1,4 @@
+const Employee = require("./lib/Employee");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -10,10 +11,64 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-
+var addAdditional = true;
+var id = 0;
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+while (addAdditional == true) {
+    
+    //asking questions for object implimentation
+    inquirer.prompt([
+        {
+            type: 'text',
+            name: 'name',
+            message: 'What is the name of this employee?',
+        },
+        {
+            type: 'list',
+            name: 'role',
+            message: 'What kind of employee is this?',
+            choices: ['Manager', 'Intern', 'Engineer'],
+        },
+        {
+            type: 'text',
+            name: 'email',
+            message: 'What is the employee\'s email?',
+        }
+    ]).then((repsonsesObj) => {
 
+        id += 1;
+
+        switch (repsonsesObj.role) {
+            case 'Manager',
+            
+                
+        };
+
+
+
+
+    })
+    
+    //additional inquierer prompt for add emp
+    inquirer.prompt([
+        {
+            type: 'text',
+            name: 'addEmp',
+            message: 'Would you like to add another employee?',
+            default: "yes"
+        },
+    
+    // Case for checking to see if they want to add additional employees
+    ]).then((repsonsesObj) => {
+
+        if (!repsonsesObj.addEmp[0].toLowerCase() == 'y') {
+            addAdditional = false;
+        }
+
+    })
+
+}
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
