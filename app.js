@@ -41,24 +41,24 @@ while (addAdditional == true) {
 
         switch (repsonsesObj.role) {
             case 'Manager':
-                let manager = new Employee(responsesObj.name,id,repsonsesObj.email)
-                officeNumber = Manager.inquirerPrompt()
-                renderManager();
+                let manager = new Employee(responsesObj.name,id,repsonsesObj.email);
+                officeNumber = Manager.inquirerFunction();
+                manager.prototype.officeNumber
+                render(manager);
                 break;
             case 'Engineer':
-                renderEngineer();
+                let engineer = new Employee(responsesObj.name,id,repsonsesObj.email);
+                gitHub = Engineer.inquirerFunction();
+                render(engineer);
                 break;
             case 'Intern':
-                renderIntern();
+                let intern = new Employee(responsesObj.name,id,repsonsesObj.email);
+                school = Intern.inquirerFunction();
+                render(intern);
                 break;
             default:
 
-
-
         }
-
-
-
 
     })
 
@@ -71,7 +71,7 @@ while (addAdditional == true) {
             default: "yes"
         },
 
-        // Case for checking to see if they want to add additional employees
+     // Case for checking to see if they want to add additional employees
     ]).then((repsonsesObj) => {
 
         if (!repsonsesObj.addEmp[0].toLowerCase() == 'y') {
