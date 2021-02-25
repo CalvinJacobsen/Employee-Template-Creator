@@ -16,7 +16,7 @@ var id = 0;
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 while (addAdditional == true) {
-    
+
     //asking questions for object implimentation
     inquirer.prompt([
         {
@@ -40,16 +40,28 @@ while (addAdditional == true) {
         id += 1;
 
         switch (repsonsesObj.role) {
-            case 'Manager',
-            
-                
-        };
+            case 'Manager':
+                let manager = new Employee(responsesObj.name,id,repsonsesObj.email)
+                officeNumber = Manager.inquirerPrompt()
+                renderManager();
+                break;
+            case 'Engineer':
+                renderEngineer();
+                break;
+            case 'Intern':
+                renderIntern();
+                break;
+            default:
+
+
+
+        }
 
 
 
 
     })
-    
+
     //additional inquierer prompt for add emp
     inquirer.prompt([
         {
@@ -58,8 +70,8 @@ while (addAdditional == true) {
             message: 'Would you like to add another employee?',
             default: "yes"
         },
-    
-    // Case for checking to see if they want to add additional employees
+
+        // Case for checking to see if they want to add additional employees
     ]).then((repsonsesObj) => {
 
         if (!repsonsesObj.addEmp[0].toLowerCase() == 'y') {
@@ -67,7 +79,7 @@ while (addAdditional == true) {
         }
 
     })
-
+    render();
 }
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
