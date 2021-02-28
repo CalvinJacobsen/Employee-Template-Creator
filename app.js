@@ -10,14 +10,14 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const EventEmitter = require("events");
 
 var addAdditional = true;
 var id = 0;
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
 while (addAdditional == true) {
 
+    addAdditional = false;
     //asking questions for object implimentation
     inquirer.prompt([
         {
@@ -35,52 +35,61 @@ while (addAdditional == true) {
             type: 'text',
             name: 'email',
             message: 'What is the employee\'s email?',
-        }
-    ]).then((repsonsesObj) => {
+        },
+        {
+            type: 'text',
+            name: 'officeNumber',
+            message: 'What is the office number of the Manager?',
+            when: (responsesObj) => responsesObj.role == 'Manager'
+        },
+        {
 
-        id += 1;
-
-        switch (repsonsesObj.role) {
-            case 'Manager':
-                let manager = new Employee(responsesObj.name,id,repsonsesObj.email);
-                officeNumber = Manager.inquirerFunction();
-                manager.prototype.officeNumber
-                render(manager);
-                break;
-            case 'Engineer':
-                let engineer = new Employee(responsesObj.name,id,repsonsesObj.email);
-                gitHub = Engineer.inquirerFunction();
-                render(engineer);
-                break;
-            case 'Intern':
-                let intern = new Employee(responsesObj.name,id,repsonsesObj.email);
-                school = Intern.inquirerFunction();
-                render(intern);
-                break;
-            default:
-
-        }
-
-    })
-
-    //additional inquierer prompt for add emp
-    inquirer.prompt([
+            type: 'text',
+            name: 'gitHub',
+            message: 'What is the GitHub username of this engineer?',
+            when: (responsesObj) => responsesObj.role == 'Engineer'
+        },
+        {
+            type: 'text',
+            name: 'school',
+            message: 'What school does this intern go to?',
+            when: (responsesObj) => responsesObj.role == 'Intern'
+        },
         {
             type: 'text',
             name: 'addEmp',
             message: 'Would you like to add another employee?',
             default: "yes"
-        },
+        }
+    ]).then((responsesObj) => {
 
-     // Case for checking to see if they want to add additional employees
-    ]).then((repsonsesObj) => {
+        id += 1;
 
-        if (!repsonsesObj.addEmp[0].toLowerCase() == 'y') {
-            addAdditional = false;
+        switch (responsesObj.role) {
+            case 'Manager':
+                let manager = new Employee(responsesObj.name, id, responsesObj.email);
+                manager.officeNumber = responsesObj.officeNumber;
+
+                //console log below returns 'Employee' when expecting to return 'Manager'
+                console.log(manager.getRole())
+                render(manager);
+                break;
+            case 'Engineer':
+                let engineer = new Employee(responsesObj.name, id, responsesObj.email);
+
+                render(engineer);
+                break;
+            case 'Intern':
+                let intern = new Employee(responsesObj.name, id, responsesObj.email);
+                render(intern);
+                break;
+        }
+
+        if (responsesObj.addEmp[0].toLowerCase() == 'y') {
+            addAdditional = true;
         }
 
     })
-    render();
 }
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
