@@ -12,12 +12,11 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const EventEmitter = require("events");
 
-var addAdditional = true;
 var id = 0;
+var employees = [];
 
-while (addAdditional == true) {
+async function addEmployee() {
 
-    addAdditional = false;
     //asking questions for object implimentation
     inquirer.prompt([
         {
@@ -56,10 +55,10 @@ while (addAdditional == true) {
             when: (responsesObj) => responsesObj.role == 'Intern'
         },
         {
-            type: 'text',
+            type: 'confirm',
             name: 'addEmp',
             message: 'Would you like to add another employee?',
-            default: "yes"
+            default: 'Y'
         }
     ]).then((responsesObj) => {
 
@@ -67,30 +66,36 @@ while (addAdditional == true) {
 
         switch (responsesObj.role) {
             case 'Manager':
-                let manager = new Employee(responsesObj.name, id, responsesObj.email);
-                manager.officeNumber = responsesObj.officeNumber;
-
-                //console log below returns 'Employee' when expecting to return 'Manager'
-                console.log(manager.getRole())
-                render(manager);
+                let manager = new Manager(responsesObj.name, id, responsesObj.email, responsesObj.officeNumber);
+                employees.push(manager);
                 break;
             case 'Engineer':
-                let engineer = new Employee(responsesObj.name, id, responsesObj.email);
-
-                render(engineer);
+                let engineer = new Engineer(responsesObj.name, id, responsesObj.email, responsesObj.gitHub);
+                employees.push(engineer);
                 break;
             case 'Intern':
-                let intern = new Employee(responsesObj.name, id, responsesObj.email);
-                render(intern);
+                let intern = new Intern(responsesObj.name, id, responsesObj.email, responsesObj.school);
+                employees.push(intern);
                 break;
         }
 
-        if (responsesObj.addEmp[0].toLowerCase() == 'y') {
-            addAdditional = true;
+
+        if (responsesObj.addEmp == true) {
+            console.log('--------------------------------')
+            addEmployee();
+        }
+        else {
+            
+            fs.writeFile('./output/team.html', render(employees), (err) =>
+                err ? console.error(err) : console.log('Look in the output folder for your newly created webpage.'))
+
         }
 
     })
+
 }
+
+addEmployee();
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
