@@ -23,8 +23,9 @@
  Download the files or clone the repo via Github and then run ' - node app.js ' in the command line. Then you will see prompts generated via the inquirer package. Finish entering in all the information and then you will see your newly generated HTML file in the upload folder. 
 
 ## Usage Information 
-
- For easily generating Employee templates 
+![example1](./img/Capture1.PNG)
+![example2](./img/Capture2.PNG)<br />
+Check out the video to get an idea of how to use this application here ==> https://drive.google.com/file/d/1oapEtEtiJHZg12mzkMuJBwqj77wE69A-/view
 
 ## Contributions 
 
